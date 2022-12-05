@@ -8,17 +8,17 @@ For usage information, type `ozone_investigation --help`.
 
 ## Installation
 
-Use the following command in the base directory to install:
+Use the following command to install:
 
 ```bash
-python -m pip install .
+python -m pip install <project_path>
 ```
 
 For an editable ("developer mode") installation, use the following
 instead:
 
 ```bash
-python -m pip install -e .
+python -m pip install -e <project_path>
 ```
 
 With this, the installation is actually a link to the original source code,
@@ -36,6 +36,12 @@ conda create --name mynewenv python
 conda activate mynewenv
 python -m pip install -e .
 ```
+Moreover, it is necessary to install the C-library libgeos-dev beforehand.
+
+```bash
+sudo apt install libgeos-dev
+```
+If the version installed is below 3.8, it is necessary to install it manually, like described on https://libgeos.org/usage/download/
 
 
 ## Notes
