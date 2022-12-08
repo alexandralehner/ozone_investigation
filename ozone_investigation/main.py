@@ -14,6 +14,7 @@ def entry_point():
     )
     args = parser.parse_args()
     filename = args.file
+    #breakpoint()
     data = file_handler.read_in_file(filename)
 
     data_handler.maxozone(data)

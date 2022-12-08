@@ -36,12 +36,13 @@ conda create --name mynewenv python
 conda activate mynewenv
 python -m pip install -e .
 ```
-Moreover, it is necessary to install the C-library libgeos-dev beforehand.
+Moreover, it is necessary to install the following libraries beforehand, if working with an Ubuntu system:
 
 ```bash
-sudo apt install libgeos-dev
+sudo apt-get install libproj-dev proj-data proj-bin
+sudo apt-get install libgeos-dev
+conda install cython
+conda install cartopy 
 ```
-If the version installed is below 3.8, it is necessary to install it manually, like described on https://libgeos.org/usage/download/
-
 
 ## Notes

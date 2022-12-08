@@ -1,5 +1,5 @@
 from . import plot
-# import xarray as xr
+import xarray as xr
 
 
 def maxozone(data):
@@ -19,4 +19,19 @@ def maxozone(data):
     # anom
     # anom.temperature_2_meter.mean(["longitude", "latitude"]).plot();
 
-    plot.plot_world(data.ozone.mean(["longitude", "latitude"]), "2000-01-01")
+    #print("coords")
+    #print(data.coords)
+    #print("values")
+    #print(data.values)
+    print("Mean")
+    #plot height of maximum level of ozone: xr.where(cond,a,b)
+    data_time_mean=data.mean(dim=["time"])
+    #max_altitude=data_time_mean.where(data_time_mean.max(dim=["altitude"]))
+    #max_altitude=data_time_mean.where(data_time_mean==data_time_mean.max(dim=["altitude"]), drop=True).squeeze()
+    max_altitude=data_time_mean.where(data_time_mean["ozone"]==data_time_mean["ozone"].max(dim=["altitude"]), data_time_mean["altitude"])
+
+
+    print(max_altitude.values)
+
+#    plot.plot_world(max_altitude.ozone(["longitude_bins", "latitude_bins"]))
+    plot.plot_world(max_altitude, variable="ozone")
