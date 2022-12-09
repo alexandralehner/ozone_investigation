@@ -1,37 +1,21 @@
 from . import plot
+from . import calc
 import xarray as xr
+import numpy as np
 
 
-def maxozone(data):
-    # mask = data.where(data != data.attrs['missing_value'])
-    # data[112, :, :].plot()
-    # ds.temperature_2_meter.mean("longitude").sel(latitude=5).plot()
-    # ds.temperature.sel(
-    #   latitude=slice(70, 90), altitude=20000).mean(
-    #   ["longitude", "latitude"]).plot()
-    # groupby
-    # ds.sel(time=slice("1991-01-01", "2019-12-31"))
-    # ds.sel(time=slice("1991-01-01", "2019-12-31")).groupby("time.month")
-    # clim = ds.sel(time=slice("1991-01-01", "2019-12-31")).groupby(
-    #   "time.month").mean()
-    # clim
-    # anom = ds.groupby("time.month") - clim
-    # anom
-    # anom.temperature_2_meter.mean(["longitude", "latitude"]).plot();
-
-    #print("coords")
-    #print(data.coords)
-    #print("values")
-    #print(data.values)
-    print("Mean")
-    #plot height of maximum level of ozone: xr.where(cond,a,b)
-    data_time_mean=data.mean(dim=["time"])
-    #max_altitude=data_time_mean.where(data_time_mean.max(dim=["altitude"]))
-    #max_altitude=data_time_mean.where(data_time_mean==data_time_mean.max(dim=["altitude"]), drop=True).squeeze()
-    max_altitude=data_time_mean.where(data_time_mean["ozone"]==data_time_mean["ozone"].max(dim=["altitude"]), data_time_mean["altitude"])
 
 
-    print(max_altitude.values)
+def make_min_max_dataset(data, compute, year, max_bool):
+    if compute == "mean":
+        data = data.mean(dim=["time"], skipna=True)
+    if compute == "mean_seasons":
+        data = calc.mean_seasons(data)
+    if compute == "year":
+        data = calc.mean_year(data, year)
 
-#    plot.plot_world(max_altitude.ozone(["longitude_bins", "latitude_bins"]))
-    plot.plot_world(max_altitude, variable="ozone")
+    data = calc.calc_height(data, variable="ozone",max=max_bool)
+
+    print(data.altitude_of_interest)
+
+    plot.plot_world(data.altitude_of_interest)

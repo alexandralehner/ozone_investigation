@@ -3,10 +3,12 @@ import cartopy
 import cartopy.crs as ccrs
 
 
-def plot_world(data, variable):
-    time_point="1991-01-01"
-    #data_to_plot = data.sel(time=time_point)
-    data_to_plot=data[variable]
+def plot_world(data):
+
+    print("plotting")
+
+    data_to_plot = data.T
+
     ax = plt.axes(projection=ccrs.EqualEarth())  # map projection
     data_to_plot.plot(ax=ax, transform=ccrs.PlateCarree())
     ax.coastlines()
