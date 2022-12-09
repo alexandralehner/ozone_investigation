@@ -1,5 +1,6 @@
 import argparse
 import numpy as np
+from pathlib import Path
 from . import file_handler
 from . import data_handler
 
@@ -21,7 +22,7 @@ def entry_point():
         action="store_true",
         help="Plot the height of the max/min level of ozone? Further specify with --max, else minimum levels are used"
     )
-    
+
     parser.add_argument(
         "--max",
         dest="max",
@@ -56,6 +57,10 @@ def entry_point():
         help="Include a specific year, for example '1991' when using '--compute year'"
     )
     args = parser.parse_args()
+
+    if not Path(args.file).exists():
+            parser.error(f"File {args.file} does not exist.")
+
     filename = args.file
     # breakpoint()
     data = file_handler.read_in_file(filename)
