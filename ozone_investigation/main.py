@@ -44,8 +44,9 @@ def entry_point():
     parser.add_argument(
         "--seasonal_pattern",
         dest="seasonal_pattern",
-        action="store_true",
-        help="Plot seasonal patterns as a time series?",
+        type=str,
+        required=False,
+        help="Plot seasonal patterns as a time series - specify season: winter, spring, summer, autumn, all",
     )
 
     args = parser.parse_args()
@@ -72,6 +73,8 @@ def entry_point():
         data_handler.height_mean_seasons(data, args.min)
     elif args.compute_vertical:
         data_handler.vertical_concentrations(data)
+    elif args.seasonal_pattern!=None:
+        data_handler.seasonal_concentrations(data, args.seasonal_pattern)
     else:
         parser.error("There was an error with your request. Check your spelling and try again")
 
