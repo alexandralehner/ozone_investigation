@@ -15,39 +15,11 @@ def entry_point():
         required=True,
         help="path to netCDF-file with climate data",
     )
-
     parser.add_argument(
-        "--plot_heights",
-        dest="plot_heights",
-        action="store_true",
-        help="Plot the height of the max/min level of ozone? Further specify with --max, else minimum levels are used",
-    )
-
-    parser.add_argument(
-        "--min",
-        dest="min",
-        action="store_true",
-        help="plot minimum value? Else, maximum value is used for calculations",
-    )
-
-    parser.add_argument(
-        "--plot_vertical",
-        dest="plot_vertical",
-        action="store_true",
-        help="Plot vertical profiles of mean ozone concentration?",
-    )
-    parser.add_argument(
-        "--plot_seasonal_pattern",
-        dest="plot_seasonal_pattern",
-        action="store_true",
-        help="Plot seasonal patterns as a time series?",
-    )
-    parser.add_argument(
-        "--compute",
-        dest="compute",
+        "--compute_height",
+        dest="compute_height",
         type=str,
-        required=True,
-        help="Which data to use: mean=mean over total time range, mean_seasons=use mean over 4 seasons, or year=mean over a specific year, specify with --year",
+        help="Which data to use for height of max/min level of ozone: mean=mean over total time range, mean_seasons=use mean over 4 seasons, or year=mean over a specific year, further specify with --year",
     )
     parser.add_argument(
         "--year",
@@ -56,6 +28,26 @@ def entry_point():
         required=False,
         help="Include a specific year, for example '1991' when using '--compute year'",
     )
+    parser.add_argument(
+        "--min",
+        dest="min",
+        action="store_true",
+        help="plot minimum value? Else, maximum value is used for calculations",
+    )
+
+    parser.add_argument(
+        "--compute_vertical",
+        dest="compute_vertical",
+        action="store_true",
+        help="Compute and plot vertical profiles of mean ozone concentration?",
+    )
+    parser.add_argument(
+        "--seasonal_pattern",
+        dest="seasonal_pattern",
+        action="store_true",
+        help="Plot seasonal patterns as a time series?",
+    )
+
     args = parser.parse_args()
 
     if not Path(args.file).exists():
@@ -67,11 +59,19 @@ def entry_point():
 
     first_year=data.coords["time"].values[0].astype(str)[:4]
     last_year=data.coords["time"].values[-1].astype(str)[:4]
-    if args.compute == "year":
+    if args.compute_height == "year":
         if args.year is None:
             parser.error("No year given. Please try again and specify year with --year")
         if int(args.year)<int(first_year) or int(args.year)>int(last_year):
             parser.error("Year given does not exist in the dataset. Please try again with a year between {0} and {1}".format(first_year,last_year))
+        else:
+            data_handler.height_year(data,args.year,args.min)
+    elif args.compute_height == "mean":
+        data_handler.height_mean(data,args.min)
+    elif args.compute_height == "mean_seasons":
+        data_handler.height_mean_seasons(data, args.min)
+    elif args.compute_vertical:
+        data_handler.vertical_concentrations(data)
+    else:
+        parser.error("There was an error with your request. Check your spelling and try again")
 
-
-    data_handler.make_min_max_dataset(data, args.compute, args.year, args.min)

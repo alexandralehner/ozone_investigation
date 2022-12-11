@@ -3,26 +3,21 @@ from . import calc
 import xarray as xr
 import numpy as np
 
-
-def make_min_max_dataset(data, compute, year, min_bool):
-    if compute == "mean":
-        data = data.mean(dim=["time"], skipna=True)
-        data = calc.calc_height(data, variable="ozone", min=min_bool)
-    if compute == "mean_seasons":
-        data = calc.mean_seasons(data)
-        #for month in data.coords["month_bins"]:
-        #    print(month)
-        #    data=calc.calc_height(data.sel(month_bins=month), variable="ozone", min=min_bool)
-
-        #for i in range(0:12)
-
-#    data.coords["time"].values[0].astype(str)[:4]
-    if compute == "year":
-        data = calc.mean_year(data, year)
-        data = calc.calc_height(data, variable="ozone", min=min_bool)
-
-#    data = calc.calc_height(data, variable="ozone", min=min_bool)
-
-    print(data.altitude_of_interest)
-
-    plot.plot_world(data.altitude_of_interest)
+def  height_year(data,year,min_bool):
+    data = calc.mean_year(data, year)
+    data_yearly_height = calc.calc_height(data, variable="ozone", min=min_bool)
+    plot.singleplot(data_yearly_height.altitude_of_interest, "Mean over year {0}".format(year))
+def height_mean(data, min_bool):
+    data_mean = data.mean(dim=["time"], skipna=True)
+    data_height = calc.calc_height(data_mean, variable="ozone", min=min_bool)
+    plot.singleplot(data_height.altitude_of_interest, "Mean over whole time")
+def height_mean_seasons(data, min_bool):
+    seasonal_data = calc.group_seasons(data)
+    data_seasonal_heights = calc.mean_seasons(seasonal_data, min_bool)
+    plot.multiplot(data_seasonal_heights, "season")
+def vertical_concentrations(data):
+    #global, tropics, high latitude,mid-lats
+    print(data)
+    data_global = data.mean(dim=["latitude_bins","longitude_bins"], skipna=True)
+    print(data_global)
+    plot.plot_vertical(data_global)
