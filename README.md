@@ -14,29 +14,10 @@ Use the following command to install:
 python -m pip install <project_path>
 ```
 
-For an editable ("developer mode") installation, use the following
-instead:
-
-```bash
-python -m pip install -e <project_path>
-```
-
-With this, the installation is actually a link to the original source code,
-i.e. each change in the source code is immediately available.
-
 
 ## Prerequisites
 
-You need a working Python environment, and `pip` installed.
-
-E.g., with `conda`:
-
-```bash
-conda create --name mynewenv python
-conda activate mynewenv
-python -m pip install -e .
-```
-Moreover, it is necessary to install the following libraries beforehand, if working with an Ubuntu system:
+It is necessary to install the following libraries beforehand, if working with an Ubuntu system:
 
 ```bash
 sudo apt-get install libproj-dev proj-data proj-bin
