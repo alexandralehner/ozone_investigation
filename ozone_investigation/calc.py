@@ -25,9 +25,7 @@ def calc_height(data, variable, min):
 def group_seasons(data):
     season_bins = [1, 4, 7, 10, 12]
     season_labels = ["winter", "spring", "summer", "autumn"]
-    data = data.groupby_bins(
-        "time.month", season_bins, labels=season_labels
-    ).mean()
+    data = data.groupby_bins("time.month", season_bins, labels=season_labels).mean()
     return data
 
 
@@ -42,15 +40,15 @@ def mean_seasons(data, min_bool):
 
 
 def mean_year(data, year):
-    data = data.sel(
-        time=slice("{0}-01-01".format(year), "{0}-12-31".format(year))
-    )
+    data = data.sel(time=slice("{0}-01-01".format(year), "{0}-12-31".format(year)))
     data = data.mean(dim=["time"], skipna=True)
 
     return data
 
+
 def mean_vertical(data, latitudes):
     data_selection = data.sel(latitude_bins=latitudes)
     data_mean = data_selection.mean(
-        dim=["latitude_bins", "longitude_bins"], skipna=True)
+        dim=["latitude_bins", "longitude_bins"], skipna=True
+    )
     return data_mean

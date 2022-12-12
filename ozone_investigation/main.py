@@ -19,9 +19,9 @@ def entry_point():
         dest="compute_height",
         type=str,
         help="Which data to use for height of max/min level of ozone: "
-             "mean=mean over total time range, "
-             "mean_seasons=use mean per season for whole time range, "
-             "or year=mean over a specific year, further specify with --year",
+        "mean=mean over total time range, "
+        "mean_seasons=use mean per season for whole time range, "
+        "or year=mean over a specific year, further specify with --year",
     )
     parser.add_argument(
         "--year",
@@ -29,14 +29,13 @@ def entry_point():
         type=str,
         required=False,
         help="Include a specific year, "
-             "for example '1991' when using '--compute year'",
+        "for example '1991' when using '--compute year'",
     )
     parser.add_argument(
         "--min",
         dest="min",
         action="store_true",
-        help="plot minimum value? "
-             "Else, maximum value is used for calculations",
+        help="plot minimum value? " "Else, maximum value is used for calculations",
     )
 
     parser.add_argument(
@@ -69,7 +68,7 @@ def entry_point():
         type=str,
         required=False,
         help="Plot seasonal patterns as a time series - specify season: "
-             "winter, spring, summer, autumn, all",
+        "winter, spring, summer, autumn, all",
     )
 
     args = parser.parse_args()
@@ -85,9 +84,7 @@ def entry_point():
     last_year = data.coords["time"].values[-1].astype(str)[:4]
     if args.compute_height == "year":
         if args.year is None:
-            parser.error(
-                "No year given. Please try again and specify year with --year"
-            )
+            parser.error("No year given. Please try again and specify year with --year")
         if int(args.year) < int(first_year) or int(args.year) > int(last_year):
             parser.error(
                 "Year given does not exist in the dataset. "
@@ -101,12 +98,22 @@ def entry_point():
         data_handler.height_mean(data, args.min)
     elif args.compute_height == "mean_seasons":
         data_handler.height_mean_seasons(data, args.min)
-    elif args.vertical_global or args.vertical_tropical or args.vertical_highlat or args.vertical_midlat:
-        data_handler.vertical_concentrations(data, args.vertical_global, args.vertical_tropical, args.vertical_highlat, args.vertical_midlat)
+    elif (
+        args.vertical_global
+        or args.vertical_tropical
+        or args.vertical_highlat
+        or args.vertical_midlat
+    ):
+        data_handler.vertical_concentrations(
+            data,
+            args.vertical_global,
+            args.vertical_tropical,
+            args.vertical_highlat,
+            args.vertical_midlat,
+        )
     elif args.seasonal_pattern is not None:
         data_handler.seasonal_concentrations(data, args.seasonal_pattern)
     else:
         parser.error(
-            "There was an error with your request. "
-            "Check your spelling and try again"
+            "There was an error with your request. " "Check your spelling and try again"
         )

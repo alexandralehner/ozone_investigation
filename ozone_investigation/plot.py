@@ -32,6 +32,7 @@ def plot_vertical(data, title):
     plt.title(title)
     plt.show()
 
+
 def plot_timeseries(data, title):
     data.plot()
     plt.grid()

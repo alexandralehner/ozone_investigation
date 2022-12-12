@@ -28,7 +28,7 @@ def vertical_concentrations(data, glob, trop, highlat, midlat):
     # global, tropics, high latitude,mid-lats
 
     if glob:
-        data_global_mean=calc.mean_vertical(data, slice(-90,90))
+        data_global_mean = calc.mean_vertical(data, slice(-90, 90))
         plot.plot_vertical(data_global_mean, "Global vertical profile")
 
     if trop:
@@ -58,18 +58,14 @@ def seasonal_concentrations(data, season):
 
     # selecting nothern polar circle, which includes the ozone hole
     data = data.sel(latitude_bins=slice(66.55, 90))
-    data = data.mean(
-        dim=["altitude", "latitude_bins", "longitude_bins"], skipna=True
-    )
+    data = data.mean(dim=["altitude", "latitude_bins", "longitude_bins"], skipna=True)
 
     if season == "all":
         plot.plot_timeseries(data.ozone, "Northern polar circle, all seasons")
 
     # seasons:
     else:
-        season_data = data.sel(
-            time=data.time.dt.month.isin(dict_season[season])
-        )
+        season_data = data.sel(time=data.time.dt.month.isin(dict_season[season]))
         plot.plot_timeseries(
             season_data.ozone, "Northern polar circle, {0}".format(season)
         )
