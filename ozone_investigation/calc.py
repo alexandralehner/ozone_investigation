@@ -23,6 +23,7 @@ def calc_height(data, variable, min):
 
 
 def group_seasons(data):
+    """Creates a new coordinate with seasons"""
     season_bins = [1, 4, 7, 10, 12]
     season_labels = ["winter", "spring", "summer", "autumn"]
     data = data.groupby_bins("time.month", season_bins, labels=season_labels).mean()
@@ -30,6 +31,7 @@ def group_seasons(data):
 
 
 def mean_seasons(data, min_bool):
+    """Calculates the mean of seasonal data, respectively"""
     seasonal_data = []
     for coordinate, sub_arr in data.groupby("month_bins"):
         data_mean = sub_arr.mean(dim=["month_bins"], skipna=True)
@@ -40,13 +42,14 @@ def mean_seasons(data, min_bool):
 
 
 def mean_year(data, year):
+    """Calculates the mean for a specific year given"""
     data = data.sel(time=slice("{0}-01-01".format(year), "{0}-12-31".format(year)))
-    data = data.mean(dim=["time"], skipna=True)
-
-    return data
+    data_mean = data.mean(dim=["time"], skipna=True)
+    return data_mean
 
 
 def mean_vertical(data, latitudes):
+    """Calculates mean concentrations for specific latitude zones"""
     data_selection = data.sel(latitude_bins=latitudes)
     data_mean = data_selection.mean(
         dim=["latitude_bins", "longitude_bins"], skipna=True

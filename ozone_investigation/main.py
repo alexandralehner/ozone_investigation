@@ -39,29 +39,12 @@ def entry_point():
     )
 
     parser.add_argument(
-        "--vertical_global",
-        dest="vertical_global",
+        "--compute_vertical",
+        dest="compute_vertical",
         action="store_true",
-        help="Compute and plot global vertical profiles of mean ozone concentration?",
+        help="Compute and plot vertical profiles of mean ozone concentration?",
     )
-    parser.add_argument(
-        "--vertical_tropical",
-        dest="vertical_tropical",
-        action="store_true",
-        help="Compute and plot tropical vertical profiles of mean ozone concentration?",
-    )
-    parser.add_argument(
-        "--vertical_highlat",
-        dest="vertical_highlat",
-        action="store_true",
-        help="Compute and plot vertical profiles of mean ozone concentration in the high latitudes?",
-    )
-    parser.add_argument(
-        "--vertical_midlat",
-        dest="vertical_midlat",
-        action="store_true",
-        help="Compute and plot vertical profiles of mean ozone concentration in the mid latitudes?",
-    )
+
     parser.add_argument(
         "--seasonal_pattern",
         dest="seasonal_pattern",
@@ -98,19 +81,8 @@ def entry_point():
         data_handler.height_mean(data, args.min)
     elif args.compute_height == "mean_seasons":
         data_handler.height_mean_seasons(data, args.min)
-    elif (
-        args.vertical_global
-        or args.vertical_tropical
-        or args.vertical_highlat
-        or args.vertical_midlat
-    ):
-        data_handler.vertical_concentrations(
-            data,
-            args.vertical_global,
-            args.vertical_tropical,
-            args.vertical_highlat,
-            args.vertical_midlat,
-        )
+    elif args.compute_vertical:
+        data_handler.vertical_concentrations(data)
     elif args.seasonal_pattern is not None:
         data_handler.seasonal_concentrations(data, args.seasonal_pattern)
     else:
