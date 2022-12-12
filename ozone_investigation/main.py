@@ -35,7 +35,8 @@ def entry_point():
         "--min",
         dest="min",
         action="store_true",
-        help="plot minimum value? " "Else, maximum value is used for calculations",
+        help="plot minimum value? "
+        "Else, maximum value is used for calculations",
     )
 
     parser.add_argument(
@@ -67,7 +68,9 @@ def entry_point():
     last_year = data.coords["time"].values[-1].astype(str)[:4]
     if args.compute_height == "year":
         if args.year is None:
-            parser.error("No year given. Please try again and specify year with --year")
+            parser.error(
+                "No year given. Please try again and specify year with --year"
+            )
         if int(args.year) < int(first_year) or int(args.year) > int(last_year):
             parser.error(
                 "Year given does not exist in the dataset. "
@@ -87,5 +90,6 @@ def entry_point():
         data_handler.seasonal_concentrations(data, args.seasonal_pattern)
     else:
         parser.error(
-            "There was an error with your request. " "Check your spelling and try again"
+            "There was an error with your request. "
+            "Check your spelling and try again"
         )

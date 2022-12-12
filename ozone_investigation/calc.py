@@ -26,7 +26,9 @@ def group_seasons(data):
     """Creates a new coordinate with seasons"""
     season_bins = [1, 4, 7, 10, 12]
     season_labels = ["winter", "spring", "summer", "autumn"]
-    data = data.groupby_bins("time.month", season_bins, labels=season_labels).mean()
+    data = data.groupby_bins(
+        "time.month", season_bins, labels=season_labels
+    ).mean()
     return data
 
 
@@ -43,7 +45,9 @@ def mean_seasons(data, min_bool):
 
 def mean_year(data, year):
     """Calculates the mean for a specific year given"""
-    data = data.sel(time=slice("{0}-01-01".format(year), "{0}-12-31".format(year)))
+    data = data.sel(
+        time=slice("{0}-01-01".format(year), "{0}-12-31".format(year))
+    )
     data_mean = data.mean(dim=["time"], skipna=True)
     return data_mean
 

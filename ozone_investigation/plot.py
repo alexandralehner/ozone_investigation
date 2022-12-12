@@ -31,16 +31,19 @@ def multiplot(data_list, attribute):
         obj["p" + str(d)].suptitle(data_list[d].attrs[attribute])
     plt.show()
 
+
 def plot_vertical_multiplot(data_list, title_list):
     """Creates a multiplot with vertical profiles from
     a list of xarrays"""
     nr_of_plots = len(data_list)
-    fig, axis = plt.subplots(nr_of_plots, 1, sharex=True, figsize=(10, 2*nr_of_plots))
+    fig, axis = plt.subplots(
+        nr_of_plots, 1, sharex=True, figsize=(10, 2 * nr_of_plots)
+    )
     for nr in range(nr_of_plots):
         data_list[nr]["ozone"].T.plot(ax=axis[nr])
         axis[nr].set_title(title_list[nr], loc="left")
     fig.suptitle("Vertical profiles of ozone concentration")
-    #fig.tight_layout()
+    # fig.tight_layout()
     plt.show()
 
 
