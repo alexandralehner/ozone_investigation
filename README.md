@@ -17,7 +17,8 @@ python -m pip install <project_path>
 
 ## Prerequisites
 
-It is necessary to install the following libraries beforehand, if working with an Ubuntu system:
+netCDF4 installed.
+Further it may necessary to install the following libraries beforehand, if working with an Ubuntu system:
 
 ```bash
 sudo apt-get install libproj-dev proj-data proj-bin
