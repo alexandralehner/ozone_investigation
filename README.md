@@ -1,5 +1,5 @@
 # ozone_investigation
-Programming Project for investigating ozone layers in the scope of the lecture "Special Topics Data Handling and Programming in Climate Science"
+Programming Project for the investigation of ozone layers in the scope of the lecture "Special Topics Data Handling and Programming in Climate Science"
 
 The project can be installed in your environment (preferably virtual environment) using `pip`.
 
